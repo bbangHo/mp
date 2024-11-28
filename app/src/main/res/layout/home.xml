@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        style="@style/ContainerStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <!-- 현재 지역과 날씨 아이콘을 정사각형 안에 배치 -->
+            <GridLayout
+                android:id="@+id/currentLocationLayout"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:columnCount="3"
+                android:gravity="end"
+                android:orientation="horizontal"
+                android:rowCount="3">
+
+                <!-- 00구 (1번 위치) -->
+                <TextView
+                    android:id="@+id/currentDistrict"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:gravity="center"
+                    android:text="00구"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+                <!-- 00동 (2번 위치) -->
+                <TextView
+                    android:id="@+id/currentTown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="1"
+                    android:gravity="center"
+                    android:text="00동"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+                <!-- 날씨 아이콘 (3번 위치) -->
+                <ImageView
+                    android:id="@+id/weatherIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_row="0"
+                    android:layout_column="2"
+                    android:gravity="center"
+                    android:src="@drawable/icon_clear" />
+
+                <!-- 현재 온도 (4번 위치) -->
+                <TextView
+                    android:id="@+id/currentTemperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_row="2"
+                    android:layout_column="1"
+                    android:gravity="center"
+                    android:text="18°C"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+                <!-- 공백 (0번 위치) -->
+            </GridLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/toggleViewButton"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="Toggle View" />
+
+        <!-- 날씨 슬라이더 -->
+        <FrameLayout
+            android:id="@+id/weatherInfoSlider"
+            style="@style/SliderStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!-- 게시물 섹션 -->
+        <LinearLayout
+            android:id="@+id/posts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <!-- 시간별 예보 슬라이더 -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="시간별 날씨 예보 스크롤뷰"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/hourlyForecast"
+                style="@style/HourlyForecastStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <!-- 공기 질 정보 -->
+        <FrameLayout
+            android:id="@+id/airQuality"
+            style="@style/SliderStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</ScrollView>
+
