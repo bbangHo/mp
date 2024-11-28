@@ -23,6 +23,7 @@ public class HomeActivity extends AppCompatActivity {
     private LinearLayout posts;
     private LinearLayout hourlyForecastContainer;
     private FrameLayout airQuality;
+    private boolean showText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +44,11 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        // Load initial data
         loadWeatherInfoSlider();
-//        loadCurrentLocation();
-        loadPosts();
         loadHourlyForecast();
-        loadAirQuality();
+//        loadCurrentLocation();
+//        loadPosts();
+//        loadAirQuality();
     }
 
     private void toggleView() {
