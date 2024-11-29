@@ -1,7 +1,12 @@
 package kr.pknu.SonYoungHo201911958;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -11,6 +16,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +30,7 @@ public class HomeActivity extends AppCompatActivity {
     private LinearLayout posts;
     private LinearLayout hourlyForecastContainer;
     private FrameLayout airQuality;
+    private boolean showText = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +40,22 @@ public class HomeActivity extends AppCompatActivity {
         toggleViewButton = findViewById(R.id.toggleViewButton);
         weatherInfoSlider = findViewById(R.id.weatherInfoSlider);
 //        currentLocation = findViewById(R.id.currentLocation);
-        posts = findViewById(R.id.posts);
+//        posts = findViewById(R.id.posts);
         hourlyForecastContainer = findViewById(R.id.hourlyForecast); // ID 매핑
         airQuality = findViewById(R.id.airQuality);
 
         toggleViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toggleView();
+                showText = !showText;
+
+                if (showText) {
+                    toggleViewButton.setText("수치");
+                } else {
+                    toggleViewButton.setText("텍스트");
+                }
+
+                loadHourlyForecast();
             }
         });
 
@@ -95,6 +111,27 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    // 동적으로 생성되는 컴포넌트 공통 컨테이너 스타일 적용 메서드
+    private Drawable createCommonBackgroundDrawable() {
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setColor(Color.parseColor("#33FFFFFF"));  // 20% 흰색
+        drawable.setCornerRadius(20);  // 모서리 반경 설정
+
+        return drawable;
+    }
+
+    // 동적으로 생성되는 컴포넌트 공통 텍스트 스타일 적용 메서드
+    private TextView addCommonTextStyle(TextView textView, boolean isBoldStyle) {
+        textView.setTextColor(Color.WHITE);  // 텍스트 색상
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);  // 텍스트 크기 (16sp)
+
+        if (isBoldStyle) {
+            textView.setTypeface(null, Typeface.BOLD);  // 볼드 텍스트
+        }
+
+        return textView;
+    }
+
     @SuppressLint("SetTextI18n")
     private View createWeatherCard(HourlyWeatherData data) {
         CardView card = new CardView(this);
@@ -102,17 +139,21 @@ public class HomeActivity extends AppCompatActivity {
         // 둥근 모서리
         card.setRadius(10);
         card.setCardElevation(4);
+        card.setBackground(createCommonBackgroundDrawable());       // 공통 컨테이너 스타일
 
         // 카드 간격 설정
         LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, // w
                 LinearLayout.LayoutParams.WRAP_CONTENT  // h
         );
-        cardParams.setMargins(16, 16, 16, 16);
+
+        cardParams.setMargins(24, 16, 24, 16);
 
         LinearLayout cardContent = new LinearLayout(this);
         cardContent.setOrientation(LinearLayout.VERTICAL);
         cardContent.setPadding(16, 16, 16, 16);
+//        cardContent.setBackground(createCommonBackgroundDrawable());    // 공통 컨테이너 스타일
+        cardContent.setLayoutParams(cardParams);
         card.addView(cardContent);
 
         // 시간 표시
@@ -132,14 +173,14 @@ public class HomeActivity extends AppCompatActivity {
 
         // 강수량 표시
         TextView rainView = new TextView(this);
-        rainView.setText(data.getRainAdverb() + " " + data.getRainText() + " (" + data.getRain() + "mm)");
+        rainView.setText(showText ? data.getRainText() : data.getRain() + "mm");
         rainView.setTextSize(14);
         rainView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         cardContent.addView(rainView);
 
         // 온도 표시
         TextView tempView = new TextView(this);
-        tempView.setText(data.getTmpAdverb() + " " + data.getTmpText() + " (" + data.getTmp() + "°C)");
+        tempView.setText(showText ? data.getTmpText() : data.getTmp() + "°C");
         tempView.setTextSize(14);
         tempView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         cardContent.addView(tempView);

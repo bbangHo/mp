@@ -3,10 +3,11 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#2E61E5"
     android:padding="16dp">
 
     <LinearLayout
-        style="@style/ContainerStyle"
+        style="@style/CommonContainerStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -14,8 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="end">
+            android:gravity="end"
+            android:orientation="horizontal">
 
             <!-- 현재 지역과 날씨 아이콘을 정사각형 안에 배치 -->
             <GridLayout
@@ -23,82 +24,85 @@
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="16dp"
-                android:columnCount="3"
-                android:gravity="end"
+                android:background="@drawable/common_container_style"
+                android:gravity="center"
                 android:orientation="horizontal"
-                android:rowCount="3">
+                android:padding="16dp"
 
-                <!-- 00구 (1번 위치) -->
+                android:rowCount="3"
+                android:columnCount="2"
+                >
+
+                <!-- 구 -->
                 <TextView
                     android:id="@+id/currentDistrict"
+                    style="@style/CommonTextStyleBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_row="0"
-                    android:layout_column="1"
-                    android:gravity="center"
-                    android:text="00구"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
 
-                <!-- 00동 (2번 위치) -->
+                    android:layout_row="0"
+                    android:layout_column="0"
+
+                    android:gravity="bottom"
+                    android:layout_gravity="bottom"
+
+                    android:text="00구" />
+
+                <!-- 동 -->
                 <TextView
                     android:id="@+id/currentTown"
+                    style="@style/CommonTextStyleBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_row="1"
-                    android:layout_column="1"
-                    android:gravity="center"
-                    android:text="00동"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
 
-                <!-- 날씨 아이콘 (3번 위치) -->
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:gravity="center"
+
+                    android:text="00동" />
+
+                <!-- 날씨 아이콘 -->
                 <ImageView
                     android:id="@+id/weatherIcon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_row="0"
-                    android:layout_column="2"
-                    android:gravity="center"
-                    android:src="@drawable/icon_clear" />
 
-                <!-- 현재 온도 (4번 위치) -->
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:gravity="top"
+                    android:src="@drawable/icon_clear"
+
+                    />
+
+                <!-- 현재 온도 -->
                 <TextView
                     android:id="@+id/currentTemperature"
+                    style="@style/CommonTextStyleBold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_row="2"
-                    android:layout_column="1"
-                    android:gravity="center"
-                    android:text="18°C"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
 
-                <!-- 공백 (0번 위치) -->
+                    android:layout_row="2"
+                    android:layout_column="0"
+                    android:gravity="center"
+
+                    android:text="18°C" />
             </GridLayout>
         </LinearLayout>
 
         <Button
             android:id="@+id/toggleViewButton"
-            style="@style/ButtonStyle"
+            style="@style/CommonTextStyleBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:text="Toggle View" />
+            android:background="@drawable/common_container_style"
+            android:text="수치" />
 
         <!-- 날씨 슬라이더 -->
         <FrameLayout
             android:id="@+id/weatherInfoSlider"
-            style="@style/SliderStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
-        <!-- 게시물 섹션 -->
-        <LinearLayout
-            android:id="@+id/posts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
 
         <!-- 시간별 예보 슬라이더 -->
         <HorizontalScrollView
@@ -107,9 +111,9 @@
             android:contentDescription="시간별 날씨 예보 스크롤뷰"
             android:scrollbars="none">
 
+            <!-- 시간별 날씨 예보 컨테이너 -->
             <LinearLayout
                 android:id="@+id/hourlyForecast"
-                style="@style/HourlyForecastStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" />
@@ -118,9 +122,45 @@
         <!-- 공기 질 정보 -->
         <FrameLayout
             android:id="@+id/airQuality"
-            style="@style/SliderStyle"
+            style="@style/CommonTextStyleBold"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/common_container_style" />
+
+        <!-- 게시글 -->
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollPost"
+            android:background="@drawable/common_container_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/postContainer"
+                style="@style/CommonTextStyleBold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/common_container_style"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/postInfoContainer"
+                    style="@style/CommonTextStyleBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/common_container_style"
+                    android:orientation="horizontal" />
+
+                <LinearLayout
+                    android:id="@+id/postContentContainer"
+                    style="@style/CommonTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/common_container_style"
+                    android:orientation="horizontal" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
 
     </LinearLayout>
 </ScrollView>
