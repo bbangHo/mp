@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- 공통 컨테이너 스타일 -->
-    <style name="CommonContainerStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:padding">16dp</item>
-    </style>
-
     <!-- 공통 텍스트 스타일 볼드 -->
     <style name="CommonTextStyleBold">
         <item name="android:textColor">#FFFFFF</item>
@@ -21,4 +13,9 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="CommonCornerStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+    
 </resources>
