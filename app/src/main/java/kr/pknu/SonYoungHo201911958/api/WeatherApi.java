@@ -1,4 +1,4 @@
-package kr.pknu.SonYoungHo201911958;
+package kr.pknu.SonYoungHo201911958.api;
 
 import android.util.Log;
 
@@ -12,11 +12,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.pknu.SonYoungHo201911958.config.ApplicationCofinguration;
+import kr.pknu.SonYoungHo201911958.dto.WeatherResponse;
+
 public class WeatherApi {
-    private static final String BASE_URL = "http://13.125.128.147:8080";
+    private static final String BASE_URL = ApplicationCofinguration.URL;
 
     public interface WeatherCallback {
-        void onSuccess(List<HourlyWeatherData> weatherData);
+        void onSuccess(WeatherResponse.Result result);
+
         void onError(String errorMessage);
     }
 
@@ -45,14 +49,22 @@ public class WeatherApi {
                     reader.close();
 
                     JSONObject jsonResponse = new JSONObject(response.toString());
+                    Log.d("WeatherApi", "Response: " + response.toString());
                     if (jsonResponse.getBoolean("isSuccess")) {
                         JSONObject result = jsonResponse.getJSONObject("result");
+                        WeatherResponse.Result res = new WeatherResponse.Result(
+                                result.getString("city"),
+                                result.getString("street"),
+                                result.getString("currentSkyType"),
+                                result.getInt("currentTmp")
+                        );
+
                         JSONArray weatherPerHourList = result.getJSONArray("weatherPerHourList");
-                        List<HourlyWeatherData> weatherData = new ArrayList<>();
+                        List<WeatherResponse.HourlyWeatherData> weatherData = new ArrayList<>();
 
                         for (int i = 0; i < weatherPerHourList.length(); i++) {
                             JSONObject data = weatherPerHourList.getJSONObject(i);
-                            HourlyWeatherData item = new HourlyWeatherData(
+                            WeatherResponse.HourlyWeatherData item = new WeatherResponse.HourlyWeatherData(
                                     data.getString("hour"),
                                     data.getString("skyType"),
                                     data.getString("rainAdverb"),
@@ -65,7 +77,8 @@ public class WeatherApi {
                             weatherData.add(item);
                         }
 
-                        callback.onSuccess(weatherData);
+                        res.setHourlyWeatherData(weatherData);
+                        callback.onSuccess(res);
                     } else {
                         callback.onError(jsonResponse.getString("message"));
                     }

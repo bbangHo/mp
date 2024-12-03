@@ -40,7 +40,7 @@
 //    private void fetchWeatherData() {
 //        WeatherApi.fetchHourlyWeather(accessToken, "703", new WeatherApi.WeatherCallback() {
 //            @Override
-//            public void onSuccess(List<HourlyWeatherData> weatherData) {
+//            public void onSuccess(List<WeatherResponse.HourlyWeatherData> weatherData) {
 //                populateHourlyForecast(weatherData);
 //            }
 //
@@ -51,16 +51,16 @@
 //        });
 //    }
 //
-//    private void populateHourlyForecast(List<HourlyWeatherData> hourlyData) {
+//    private void populateHourlyForecast(List<WeatherResponse.HourlyWeatherData> hourlyData) {
 //        container.removeAllViews();
 //
-//        for (HourlyWeatherData item : hourlyData) {
+//        for (WeatherResponse.HourlyWeatherData item : hourlyData) {
 //            View cardView = createWeatherCard(getContext(), item);
 //            container.addView(cardView);
 //        }
 //    }
 //
-//    private View createWeatherCard(Context context, HourlyWeatherData item) {
+//    private View createWeatherCard(Context context, WeatherResponse.HourlyWeatherData item) {
 //        CardView card = new CardView(context);
 //        card.setRadius(10);
 //        card.setCardElevation(4);

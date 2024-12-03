@@ -53,9 +53,9 @@
                         style="@style/CommonTextStyleBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="6dp"
-
                         android:gravity="center"
+
+                        android:paddingBottom="6dp"
 
                         android:text="00동" />
 
@@ -76,8 +76,8 @@
                     android:id="@+id/weatherIconContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <!-- 날씨 아이콘 -->
                     <ImageView
@@ -86,8 +86,7 @@
                         android:layout_height="60dp"
 
                         android:gravity="center"
-                        android:src="@drawable/icon_clear"
-                        />
+                        android:src="@drawable/icon_clear" />
 
                     <TextView
                         android:id="@+id/currentTemperatureText"
@@ -143,7 +142,7 @@
 
         <!-- 게시글 좌우 스크롤 -->
         <HorizontalScrollView
-            android:id="@+id/horizontalScrollPost"
+            android:id="@+id/scrollPost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/common_container_style">
@@ -152,71 +151,99 @@
             <LinearLayout
                 android:id="@+id/postContainer"
                 style="@style/CommonTextStyleBold"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="8dp"
+
+                >
 
                 <!-- 작성자 정보 섹터-->
                 <LinearLayout
                     android:id="@+id/postInfoContainer"
                     style="@style/CommonTextStyleBold"
-                    android:layout_width="match_parent"
+                    android:layout_width="360dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="4dp"
+
                     >
 
                     <!-- 프로필 이미지 -->
                     <ImageView
                         android:id="@+id/userProfile"
+                        android:background="@drawable/common_conner_style"
+                        android:clipToOutline="true"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="4dp"
 
-                        android:src="@drawable/profile"
-                        />
+                        android:src="@drawable/profile" />
 
-                    <!-- 사용자 이름 -->
-                    <TextView
-                        android:id="@+id/userName"
-                        style="@style/CommonTextStyle"
+
+                    <LinearLayout
+                        android:id="@+id/userInfoContainer"
+                        style="@style/CommonTextStyleBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                        android:text="사용자 명"
-                        />
+                        <!-- 사용자 이름 -->
+                        <TextView
+                            android:id="@+id/userName"
+                            style="@style/CommonTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="사용자 명"
+
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/createdAt"
+                            style="@style/CommonTextStyleBold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3분전"
+                            android:textColor="@color/light_gray"
+                            android:textSize="10sp"
+
+                            />
+                    </LinearLayout>
 
                     <!-- 사용자 타입 -->
                     <ImageView
                         android:id="@+id/userType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <!-- 좋아요 -->
-                <LinearLayout
-                    android:id="@+id/postLikeContainer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
-
-                    <!-- 좋아요 하트 이미지 -->
-                    <ImageView
-                        android:id="@+id/likeImage"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/icon_heart0"
-                        />
+                        android:src="@drawable/icon_clear" />
 
-                    <!-- 좋아요 수 -->
-                    <TextView
-                        android:id="@+id/likeCount"
-                        style="@style/CommonTextStyle"
+                    <!-- 좋아요 -->
+                    <LinearLayout
+                        android:id="@+id/postLikeContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
-                        />
+                        android:layout_gravity="end"
+                        android:layout_marginStart="230dp"
+
+                        android:orientation="vertical">
+
+                        <!-- 좋아요 하트 이미지 -->
+                        <ImageView
+                            android:id="@+id/likeImage"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/icon_heart0" />
+
+                        <!-- 좋아요 수 -->
+                        <TextView
+                            android:id="@+id/likeCount"
+                            style="@style/CommonTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="0" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <!-- 게시글 내용 섹터-->
@@ -226,8 +253,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/common_container_style"
-                    android:orientation="horizontal" />
+                    android:orientation="horizontal">
 
+                    <TextView
+                        android:id="@+id/postContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="tttttttttttttttt"
+
+                        />
+
+                </LinearLayout>
             </LinearLayout>
         </HorizontalScrollView>
 
