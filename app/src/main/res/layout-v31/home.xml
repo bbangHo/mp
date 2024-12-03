@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2E61E5"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- 게시글 좌우 스크롤 -->
+        <ScrollView
+            android:id="@+id/scrollPost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/common_container_style">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
+
+                <HorizontalScrollView
+                    android:id="@+id/simpleForecast"
+                    style="@style/CommonTextStyleBold"
+                    android:layout_width="220dp"
+                    android:layout_height="200dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/common_container_style"></HorizontalScrollView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- 현재 지역과 날씨 아이콘을 정사각형 안에 배치 -->
+                    <LinearLayout
+                        android:id="@+id/currentLocationLayout"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:background="@drawable/common_container_style"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <LinearLayout
+                            android:id="@+id/textContainer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <!-- 구 -->
+                            <TextView
+                                android:id="@+id/currentDistrict"
+                                style="@style/CommonTextStyleBold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:paddingTop="6dp"
+                                android:paddingBottom="6dp"
+
+                                android:text="00구" />
+
+                            <!-- 동 -->
+                            <TextView
+                                android:id="@+id/currentTown"
+                                style="@style/CommonTextStyleBold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+
+                                android:paddingBottom="6dp"
+
+                                android:text="00동" />
+
+                            <!-- 현재 온도 -->
+                            <TextView
+                                android:id="@+id/currentTemperature"
+                                style="@style/CommonTextStyleBold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:gravity="center"
+                                android:paddingTop="14dp"
+
+                                android:text="18°C" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/weatherIconContainer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <!-- 날씨 아이콘 -->
+                            <ImageView
+                                android:id="@+id/weatherIcon"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+
+                                android:gravity="center"
+                                android:src="@drawable/icon_clear" />
+
+                            <TextView
+                                android:id="@+id/currentTemperatureText"
+                                style="@style/CommonTextStyleBold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:gravity="center"
+                                android:paddingTop="16dp"
+
+                                android:text="맑음" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/toggleViewButton"
+                        style="@style/CommonTextStyleBold"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/common_container_style"
+                        android:text="수치"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 날씨 슬라이더 -->
+            <FrameLayout
+                android:id="@+id/weatherInfoSlider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <!-- 시간별 예보 슬라이더 -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/hourly_forecast_container_style"
+                android:contentDescription="시간별 날씨 예보 스크롤뷰"
+                android:scrollbars="none">
+
+                <!-- 시간별 날씨 예보 컨테이너 -->
+                <LinearLayout
+                    android:id="@+id/hourlyForecast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
+            <!-- 공기 질 정보 -->
+            <TextView
+                android:id="@+id/ultraFineDust"
+                style="@style/CommonTextStyleBold"
+                android:layout_width="89dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/common_container_style"
+                android:text="\n초미세먼지\n"
+                android:textAlignment="center"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/airQualityContainer"
+                style="@style/CommonTextStyleBold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/fineDust"
+                    style="@style/CommonTextStyleBold"
+                    android:layout_width="89dp"
+                    android:layout_height="80dp"
+                    android:background="@drawable/common_container_style"
+                    android:text="\n미세먼지\n"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/ultraFineDust"
+                    style="@style/CommonTextStyleBold"
+                    android:layout_width="89dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/common_container_style"
+                    android:text="\n초미세먼지\n"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/ultravioletRays"
+                    style="@style/CommonTextStyleBold"
+                    android:layout_width="89dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/common_container_style"
+                    android:text="\n자외선\n"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/ozone"
+                    style="@style/CommonTextStyleBold"
+                    android:layout_width="89dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/common_container_style"
+                    android:text="\n오존\n"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- 게시글 컨테이너 -->
+            <LinearLayout
+                android:id="@+id/postContainer"
+                style="@style/CommonTextStyleBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/common_container_style"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <!-- 작성자 정보 섹터-->
+                <LinearLayout
+                    android:id="@+id/postInfoContainer"
+                    style="@style/CommonTextStyleBold"
+                    android:layout_width="360dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal">
+
+                    <!-- 프로필 이미지 -->
+                    <ImageView
+                        android:id="@+id/userProfile"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="4dp"
+                        android:background="@drawable/common_conner_style"
+                        android:clipToOutline="true"
+                        android:src="@drawable/profile" />
+
+                    <LinearLayout
+                        android:id="@+id/userInfoContainer"
+                        style="@style/CommonTextStyleBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- 사용자 이름 -->
+                        <TextView
+                            android:id="@+id/userName"
+                            style="@style/CommonTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="사용자 명"
+
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/createdAt"
+                            style="@style/CommonTextStyleBold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3분전"
+                            android:textColor="@color/light_gray"
+                            android:textSize="10sp"
+
+                            />
+                    </LinearLayout>
+
+                    <!-- 사용자 타입 -->
+                    <ImageView
+                        android:id="@+id/userType"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/icon_clear" />
+
+                    <!-- 좋아요 -->
+                    <LinearLayout
+                        android:id="@+id/postLikeContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginStart="230dp"
+
+                        android:orientation="vertical">
+
+                        <!-- 좋아요 하트 이미지 -->
+                        <ImageView
+                            android:id="@+id/likeImage"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/icon_heart0" />
+
+                        <!-- 좋아요 수 -->
+                        <TextView
+                            android:id="@+id/likeCount"
+                            style="@style/CommonTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="0" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 게시글 내용 섹터-->
+                <LinearLayout
+                    android:id="@+id/postContentContainer"
+                    style="@style/CommonTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/common_container_style"
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="4dp"
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:id="@+id/postContent"
+                        style="@style/CommonTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="130dp"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</LinearLayout>
+
