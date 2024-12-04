@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#2E61E5"
+    android:padding="16dp">
+
+    <!-- 글 내용 입력 EditText -->
+    <EditText
+        android:id="@+id/contentEditText"
+        style="@style/CommonTextStyleBold"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/common_container_style"
+        android:hint="내용을 작성하세요"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="100dp"
+        android:textColor="@color/white"
+        android:inputType="textMultiLine" />
+
+    <!-- 공유하기 버튼 -->
+    <Button
+        android:id="@+id/shareButton"
+        style="@style/CommonTextStyleBold"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/common_container_style"
+        android:text="공유하기" />
+
+</LinearLayout>

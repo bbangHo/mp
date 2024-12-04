@@ -24,16 +24,6 @@
                 android:orientation="horizontal"
                 android:paddingTop="8dp">
 
-                <HorizontalScrollView
-                    android:id="@+id/simpleForecast"
-                    style="@style/CommonTextStyleBold"
-                    android:layout_width="220dp"
-                    android:layout_height="200dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/common_container_style">
-
-                </HorizontalScrollView>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -42,10 +32,9 @@
                     <!-- 현재 지역과 날씨 아이콘을 정사각형 안에 배치 -->
                     <LinearLayout
                         android:id="@+id/currentLocationLayout"
-                        android:layout_width="150dp"
+                        android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:background="@drawable/common_container_style"
-                        android:gravity="center"
+                        android:gravity="end"
                         android:orientation="horizontal"
                         android:padding="8dp">
 
@@ -124,7 +113,6 @@
                     </LinearLayout>
 
 
-
                     <Button
                         android:id="@+id/toggleViewButton"
                         style="@style/CommonTextStyleBold"
@@ -135,7 +123,6 @@
                         android:background="@drawable/common_container_style"
                         android:text="수치"
                         android:textSize="12sp" />
-
                 </LinearLayout>
             </LinearLayout>
 
@@ -148,7 +135,7 @@
             <!-- 시간별 예보 슬라이더 -->
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/hourly_forecast_container_style"
@@ -171,48 +158,105 @@
                 android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/fineDust"
-                    style="@style/CommonTextStyleBold"
-                    android:layout_width="89dp"
-                    android:layout_height="80dp"
+                <LinearLayout
+                    android:layout_width="88dp"
+                    android:layout_height="90dp"
                     android:background="@drawable/common_container_style"
-                    android:text="\n미세먼지\n"
-                    android:textAlignment="center"
-                    android:textSize="14sp" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/ultraFineDust"
-                    style="@style/CommonTextStyleBold"
-                    android:layout_width="89dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="8dp"
-                    android:background="@drawable/common_container_style"
-                    android:text="\n초미세먼지\n"
-                    android:textAlignment="center"
-                    android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/fineDust"
+                        style="@style/CommonTextStyleBold"
+                        android:layout_width="89dp"
+                        android:layout_height="wrap_content"
+                        android:text="\n미세먼지"
+                        android:textAlignment="center"
+                        android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/ultravioletRays"
-                    style="@style/CommonTextStyleBold"
-                    android:layout_width="89dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="8dp"
-                    android:background="@drawable/common_container_style"
-                    android:text="\n자외선\n"
-                    android:textAlignment="center"
-                    android:textSize="14sp" />
+                    <TextView
+                        style="@style/CommonTextStyleBold"
+                        android:layout_width="88dp"
+                        android:layout_height="wrap_content"
+                        android:text="\n매우 좋음"
+                        android:textAlignment="center"
+                        android:textColor="#1263CE"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/ozone"
-                    style="@style/CommonTextStyleBold"
-                    android:layout_width="89dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="8dp"
+                <LinearLayout
+                    android:layout_width="88dp"
+                    android:layout_height="90dp"
                     android:background="@drawable/common_container_style"
-                    android:text="\n오존\n"
-                    android:textAlignment="center"
-                    android:textSize="14sp" />
+                    android:orientation="vertical"
+                    android:layout_marginLeft="8dp">
+
+                    <TextView
+                        style="@style/CommonTextStyleBold"
+                        android:layout_width="88dp"
+                        android:layout_height="wrap_content"
+                        android:text="\n초미세먼지"
+                        android:textAlignment="center"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        style="@style/CommonTextStyleBold"
+                        android:layout_width="88dp"
+                        android:layout_height="wrap_content"
+                        android:text="\n매우 좋음"
+                        android:textAlignment="center"
+                        android:textColor="#1263CE"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="88dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/common_container_style"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="8dp">
+
+                    <TextView
+                        style="@style/CommonTextStyleBold"
+                        android:layout_width="88dp"
+                        android:layout_height="wrap_content"
+                        android:text="\n자외선"
+                        android:textAlignment="center"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        style="@style/CommonTextStyleBold"
+                        android:layout_width="88dp"
+                        android:layout_height="wrap_content"
+                        android:text="\n보통"
+                        android:textAlignment="center"
+                        android:textColor="#62Ce11"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="88dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/common_container_style"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="8dp">
+
+                    <TextView
+                        style="@style/CommonTextStyleBold"
+                        android:layout_width="88dp"
+                        android:layout_height="wrap_content"
+                        android:text="\n자외선"
+                        android:textAlignment="center"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        style="@style/CommonTextStyleBold"
+                        android:layout_width="88dp"
+                        android:layout_height="wrap_content"
+                        android:text="\n보통"
+                        android:textAlignment="center"
+                        android:textColor="#62Ce11"
+                        android:textSize="14sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <!-- 게시글들을 담는 외부 컨테이너 -->
@@ -293,8 +337,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
-                            android:layout_marginStart="230dp"
-
+                            android:clickable="false"
+                            android:layout_marginStart="220dp"
                             android:orientation="vertical">
 
                             <!-- 좋아요 하트 이미지 -->
@@ -303,6 +347,8 @@
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_gravity="center"
+                                android:clickable="true"
+                                android:focusable="true"
                                 android:src="@drawable/icon_heart0" />
 
                             <!-- 좋아요 수 -->
@@ -347,11 +393,11 @@
         android:id="@+id/createPostBtn"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
         android:background="@drawable/post_btn_conner_style"
-        android:src="@drawable/icon_share"
         android:clipToOutline="true"
-        android:layout_margin="16dp"/>
+        android:src="@drawable/icon_share" />
 </RelativeLayout>
 

@@ -2,6 +2,7 @@ package kr.pknu.SonYoungHo201911958;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -34,12 +35,16 @@ public class HomeActivity extends AppCompatActivity {
     private WeatherResponse.Result cachedWeatherData;
 
     private Button toggleViewButton;
-    private ImageView likeImage;
+    private ImageView createPostBtn;
     private LinearLayout postContainer;
     private LinearLayout postOuterContainer;
     private LinearLayout hourlyForecastContainer;
-    private FrameLayout airQuality;
     private boolean showText = true;
+
+    ImageView likeImage;
+    TextView likeCount;
+    boolean isLiked = false;  // 좋아요 상태를 추적하는 변수
+    int count = 0;  // 좋아요 수
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +53,19 @@ public class HomeActivity extends AppCompatActivity {
 
 
         toggleViewButton = findViewById(R.id.toggleViewButton);
-        likeImage = findViewById(R.id.likeImage);
+        createPostBtn = findViewById(R.id.createPostBtn);
         postOuterContainer = findViewById(R.id.postOuterContainer);
         postContainer = findViewById(R.id.postContainer);
         hourlyForecastContainer = findViewById(R.id.hourlyForecast);
-        airQuality = findViewById(R.id.airQuality);
+
+        createPostBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 글 작성 페이지로 이동
+                Intent intent = new Intent(HomeActivity.this, CreatePostActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // 수치 <-> 텍스트
         toggleViewButton.setOnClickListener(new View.OnClickListener() {
@@ -73,10 +86,40 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        likeImage = findViewById(R.id.likeImage);
+        likeCount = findViewById(R.id.likeCount);
+
+        likeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("LikeButton", "클릭됨");
+                if (isLiked) {
+                    // 이미 좋아요를 눌렀다면
+                    count--;  // 좋아요 수 감소
+                    likeImage.setImageResource(R.drawable.icon_heart0);  // 원래 이미지로 변경
+                    isLiked = false;  // 상태 변경
+                } else {
+                    // 좋아요를 누르지 않았다면
+                    count++;  // 좋아요 수 증가
+                    likeImage.setImageResource(R.drawable.icon_heart2);  // 좋아요한 이미지로 변경
+                    isLiked = true;  // 상태 변경
+                }
+
+                likeCount.setText(String.valueOf(count));  // 좋아요 수 업데이트
+            }
+        });
+
+
         postContainer.removeAllViews();
         loadPosts(0, 10, "WEATHER", 703);
         loadWeatherData();
-        loadAirQuality();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 게시글 목록 새로고침
+        loadPosts(0, 10, "WEATHER", 703);  // loadPosts() 메서드를 호출
     }
 
     private void loadPosts(int lastPostId, int size, String postType, int locationId) {
@@ -248,46 +291,46 @@ public class HomeActivity extends AppCompatActivity {
         populateHourlyForecast(result.getHourlyWeatherData());
     }
 
-//    private void loadWeatherData() {
-//        String accessToken = ApplicationCofinguration.ACCESS_TOKEN;
-//        String locationId = "703";
-//
-//        WeatherApi.fetchHourlyWeather(accessToken, locationId, new WeatherApi.WeatherCallback() {
-//            @Override
-//            public void onSuccess(WeatherResponse.Result result) {
-//                // 데이터를 캐시
-//                cachedWeatherData = result;
-//
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        runOnUiThread(() -> populateHourlyForecast(result.getHourlyWeatherData()));
-//
-//                        // "구"와 "동" 텍스트 설정
-//                        TextView currentDistrict = findViewById(R.id.currentDistrict);
-//                        TextView currentTown = findViewById(R.id.currentTown);
-//                        TextView currentTemp = findViewById(R.id.currentTemperature);
-//                        ImageView weatherIcon = findViewById(R.id.weatherIcon);
-//                        currentDistrict.setText(result.getCity());  // 구
-//                        currentTown.setText(result.getStreet());    // 동
-//                        currentTemp.setText(String.valueOf(result.getCurrentTmp()) + "°C");    // 현재 온도
-//                        weatherIcon.setImageResource(getWeatherIcon(result.getCurrentSkyType()));   // 현재 하늘? 날씨? 상황
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onError(String errorMessage) {
-//                Log.e("HomeActivity", "Error fetching hourly forecast: " + errorMessage);
-//            }
-//        });
-//    }
+    private void loadWeatherData() {
+        String accessToken = ApplicationCofinguration.ACCESS_TOKEN;
+        String locationId = "703";
+
+        WeatherApi.fetchHourlyWeather(accessToken, locationId, new WeatherApi.WeatherCallback() {
+            @Override
+            public void onSuccess(WeatherResponse.Result result) {
+                // 데이터를 캐시
+                cachedWeatherData = result;
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(() -> populateHourlyForecast(result.getHourlyWeatherData()));
+
+                        // "구"와 "동" 텍스트 설정
+                        TextView currentDistrict = findViewById(R.id.currentDistrict);
+                        TextView currentTown = findViewById(R.id.currentTown);
+                        TextView currentTemp = findViewById(R.id.currentTemperature);
+                        ImageView weatherIcon = findViewById(R.id.weatherIcon);
+                        currentDistrict.setText(result.getCity());  // 구
+                        currentTown.setText(result.getStreet());    // 동
+                        currentTemp.setText(String.valueOf(result.getCurrentTmp()) + "°C");    // 현재 온도
+                        weatherIcon.setImageResource(getWeatherIcon(result.getCurrentSkyType()));   // 현재 하늘? 날씨? 상황
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Log.e("HomeActivity", "Error fetching hourly forecast: " + errorMessage);
+            }
+        });
+    }
 
 //     더미 데이터를 로드하는 메서드
-    private void loadWeatherData() {
-        List<WeatherResponse.HourlyWeatherData> dummyData = createDummyHourlyData(); // 더미 데이터 생성
-        populateHourlyForecast(dummyData); // 더미 데이터를 UI에 반영
-    }
+//    private void loadWeatherData() {
+//        List<WeatherResponse.HourlyWeatherData> dummyData = createDummyHourlyData(); // 더미 데이터 생성
+//        populateHourlyForecast(dummyData); // 더미 데이터를 UI에 반영
+//    }
 
     private void populateHourlyForecast(List<WeatherResponse.HourlyWeatherData> weatherData) {
         hourlyForecastContainer.removeAllViews();
@@ -380,10 +423,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private String formatHour(String isoString) {
         return isoString.substring(11, 13) + "시"; // ISO 8601 시간 문자열에서 시간만 추출
-    }
-
-    private void loadAirQuality() {
-        // Show air quality index
     }
 
     private int getWeatherIcon(String skyType) {
