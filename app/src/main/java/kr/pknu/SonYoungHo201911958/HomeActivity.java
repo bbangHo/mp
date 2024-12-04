@@ -1,6 +1,7 @@
 package kr.pknu.SonYoungHo201911958;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -8,6 +9,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -32,7 +34,9 @@ public class HomeActivity extends AppCompatActivity {
     private WeatherResponse.Result cachedWeatherData;
 
     private Button toggleViewButton;
+    private ImageView likeImage;
     private LinearLayout postContainer;
+    private LinearLayout postOuterContainer;
     private LinearLayout hourlyForecastContainer;
     private FrameLayout airQuality;
     private boolean showText = true;
@@ -42,7 +46,10 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
+
         toggleViewButton = findViewById(R.id.toggleViewButton);
+        likeImage = findViewById(R.id.likeImage);
+        postOuterContainer = findViewById(R.id.postOuterContainer);
         postContainer = findViewById(R.id.postContainer);
         hourlyForecastContainer = findViewById(R.id.hourlyForecast);
         airQuality = findViewById(R.id.airQuality);
@@ -66,6 +73,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        postContainer.removeAllViews();
         loadPosts(0, 10, "WEATHER", 703);
         loadWeatherData();
         loadAirQuality();
@@ -93,106 +101,138 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void displayPosts(List<PostResponse.Post> posts) {
-        postContainer.removeAllViews();
+        final Activity activity = this;
 
-        for (PostResponse.Post post : posts) {
-            // 작성자 정보 및 프로필 이미지를 동적으로 추가
-            LinearLayout postInfoContainer = new LinearLayout(this);
-            postInfoContainer.setOrientation(LinearLayout.HORIZONTAL);
-            postInfoContainer.setLayoutParams(new LinearLayout.LayoutParams(
-                    convertDpToPx(360),
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            ));
-            postInfoContainer.setPadding(8, 4, 8, 4);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // posts 리스트를 반복하며 각각의 post에 대해 view 생성
+                for (PostResponse.Post post : posts) {
 
-            // 프로필 이미지
-            ImageView userProfile = new ImageView(this);
-            userProfile.setLayoutParams(new LinearLayout.LayoutParams(convertDpToPx(30), convertDpToPx(30)));
-            userProfile.setImageResource(R.drawable.profile);
-            userProfile.setBackgroundResource(R.drawable.common_conner_style);  // 배경 추가
-            userProfile.setClipToOutline(true); // 이미지를 둥글게 자르기
-            postInfoContainer.addView(userProfile);
+                    // 각 게시글에 대한 LinearLayout을 새로 만들어서 배경을 설정합니다.
+                    LinearLayout postContainer = new LinearLayout(activity);
+                    postContainer.setOrientation(LinearLayout.VERTICAL);
+                    LinearLayout.LayoutParams postContainerLayoutParams = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    postContainerLayoutParams.setMargins(0, 0, 0, convertDpToPx(8));
+                    postContainer.setLayoutParams(postContainerLayoutParams);
+                    postContainer.setBackgroundResource(R.drawable.common_container_style);
 
-            // 작성자 이름과 시간
-            LinearLayout userInfoContainer = new LinearLayout(this);
-            userInfoContainer.setOrientation(LinearLayout.VERTICAL);
-            userInfoContainer.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            ));
+                    // 작성자 정보 및 프로필 이미지를 동적으로 추가
+                    LinearLayout postInfoContainer = new LinearLayout(activity);
+                    postInfoContainer.setOrientation(LinearLayout.HORIZONTAL);
+                    postInfoContainer.setLayoutParams(new LinearLayout.LayoutParams(
+                            convertDpToPx(360), LinearLayout.LayoutParams.WRAP_CONTENT
+                    ));
+                    postInfoContainer.setPadding(convertDpToPx(8), convertDpToPx(4), convertDpToPx(8), convertDpToPx(4));
 
-            TextView userName = new TextView(this);
-            userName.setText(post.getMemberInfo().getMemberName());
-            userName.setTextSize(14);
-            userInfoContainer.addView(userName);
+                    // 게시글 간 간격 추가
+                    LinearLayout.LayoutParams postInfoContainerLayoutParams = (LinearLayout.LayoutParams) postInfoContainer.getLayoutParams();
+                    postInfoContainerLayoutParams.setMargins(0, 0, 0, convertDpToPx(8));  // 아래에 여백 추가
+                    postInfoContainer.setLayoutParams(postInfoContainerLayoutParams);
 
-            TextView createdAt = new TextView(this);
-            createdAt.setText(post.getPostInfo().getCreatedAt()); // "1일 전"과 같은 시간 정보
-            createdAt.setTextColor(getResources().getColor(R.color.light_gray));  // 시간 텍스트 색상
-            createdAt.setTextSize(12);
-            userInfoContainer.addView(createdAt);
-            postInfoContainer.addView(userInfoContainer);
+                    // 프로필 이미지
+                    ImageView userProfile = new ImageView(activity);
+                    LinearLayout.LayoutParams userProfileLayoutParams = new LinearLayout.LayoutParams(
+                            convertDpToPx(30), convertDpToPx(30));
+                    userProfileLayoutParams.setMargins(0, convertDpToPx(10), convertDpToPx(4), 0);
+                    userProfile.setLayoutParams(userProfileLayoutParams);
+                    userProfile.setImageResource(R.drawable.profile);
+                    userProfile.setBackgroundResource(R.drawable.common_conner_style);  // 배경 추가
+                    userProfile.setClipToOutline(true); // 이미지를 둥글게 자르기
+                    postInfoContainer.addView(userProfile);
 
-            // 사용자 타입 이미지
-            ImageView userType = new ImageView(this);
-            userType.setLayoutParams(new LinearLayout.LayoutParams(convertDpToPx(20), convertDpToPx(20)));
-            if (post.getMemberInfo().getSensitivity().equals("NONE")) {
-                userType.setImageResource(R.drawable.icon_partlycloudy);  // 사용자 타입에 맞는 이미지
-            } else if (post.getMemberInfo().getSensitivity().equals("COLD")) {
-                userType.setImageResource(R.drawable.icon_snow);  // 사용자 타입에 맞는 이미지
-            } else {
-                userType.setImageResource(R.drawable.icon_clear);  // 사용자 타입에 맞는 이미지
+                    // 작성자 이름과 시간
+                    LinearLayout userInfoContainer = new LinearLayout(activity);
+                    userInfoContainer.setOrientation(LinearLayout.VERTICAL);
+                    LinearLayout.LayoutParams userInfoContainerLayoutParams = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    userInfoContainerLayoutParams.setMargins(0, convertDpToPx(8), 0, 0);
+                    userInfoContainer.setLayoutParams(userInfoContainerLayoutParams);
+
+                    TextView userName = new TextView(activity);
+                    userName.setText(post.getMemberInfo().getMemberName());
+                    userName.setTextSize(14);
+                    userName.setTextAppearance(activity, R.style.CommonTextStyle);
+                    userInfoContainer.addView(userName);
+
+                    TextView createdAt = new TextView(activity);
+                    createdAt.setText(post.getPostInfo().getCreatedAt()); // "1일 전"과 같은 시간 정보
+                    createdAt.setTextColor(getResources().getColor(R.color.light_gray));  // 시간 텍스트 색상
+                    createdAt.setTextSize(12);
+                    userInfoContainer.addView(createdAt);
+                    postInfoContainer.addView(userInfoContainer);
+
+                    // 사용자 타입 이미지
+                    ImageView userType = new ImageView(activity);
+                    LinearLayout.LayoutParams userTypeParam = new LinearLayout.LayoutParams(convertDpToPx(20), convertDpToPx(20));
+                    userTypeParam.setMargins(0, convertDpToPx(8), 0, 0);
+                    userType.setLayoutParams(userTypeParam);
+                    if (post.getMemberInfo().getSensitivity().equals("NONE")) {
+                        userType.setImageResource(R.drawable.icon_partlycloudy);  // 사용자 타입에 맞는 이미지
+                    } else if (post.getMemberInfo().getSensitivity().equals("COLD")) {
+                        userType.setImageResource(R.drawable.icon_snow);  // 사용자 타입에 맞는 이미지
+                    } else {
+                        userType.setImageResource(R.drawable.icon_clear);  // 사용자 타입에 맞는 이미지
+                    }
+                    postInfoContainer.addView(userType);
+
+                    // 좋아요 이미지와 좋아요 수
+                    LinearLayout postLikeContainer = new LinearLayout(activity);
+                    postLikeContainer.setOrientation(LinearLayout.VERTICAL);
+                    LinearLayout.LayoutParams postLikeContainerLayoutParams = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    postLikeContainerLayoutParams.setMargins(convertDpToPx(240), convertDpToPx(8), 0, 0);
+                    postLikeContainer.setLayoutParams(postLikeContainerLayoutParams);
+
+                    ImageView likeImage = new ImageView(activity);
+                    likeImage.setLayoutParams(new LinearLayout.LayoutParams(convertDpToPx(20), convertDpToPx(20)));
+                    likeImage.setImageResource(post.getPostInfo().isLikeClickable() ?
+                            R.drawable.icon_heart0 : R.drawable.icon_heart2);  // 좋아요 클릭 여부에 따른 이미지 변경
+                    postLikeContainer.addView(likeImage);
+
+                    TextView likeCount = new TextView(activity);
+                    likeCount.setText(String.valueOf(post.getPostInfo().getLikeCount()));
+                    likeCount.setTextAppearance(activity, R.style.CommonTextStyle);
+                    likeCount.setGravity(Gravity.CENTER);
+                    postLikeContainer.addView(likeCount);
+
+                    postInfoContainer.addView(postLikeContainer);
+
+                    // 최종적으로 사용자 정보 섹터를 먼저 추가
+                    postContainer.addView(postInfoContainer);
+
+                    // 게시글 내용 추가
+                    TextView postContent = new TextView(activity);
+                    postContent.setBackgroundResource(R.drawable.common_container_style);
+                    postContent.setText(post.getPostInfo().getContent());
+
+                    // 텍스트에만 패딩을 설정 (왼쪽, 위, 오른쪽, 아래 순)
+                    postContent.setPadding(convertDpToPx(8), convertDpToPx(8), convertDpToPx(8), convertDpToPx(8));
+
+                    // 스타일 적용 (home.xml에서 정의한 스타일 적용)
+                    postContent.setTextAppearance(activity, R.style.CommonTextStyle);  // 스타일 추가
+
+                    // 레이아웃 파라미터 설정 (여백, 마진)
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    layoutParams.setMargins(convertDpToPx(8), convertDpToPx(8), convertDpToPx(8), convertDpToPx(8));  // 여백 설정
+                    postContent.setLayoutParams(layoutParams);
+                    postContent.setHeight(convertDpToPx(100));
+
+                    // 게시글 내용은 사용자 정보 밑에 추가
+                    postContainer.addView(postContent);
+
+                    // 최종적으로 postContainer를 화면에 추가
+                    postOuterContainer.addView(postContainer);
+                }
             }
-            postInfoContainer.addView(userType);
-
-            // 좋아요 이미지와 좋아요 수
-            LinearLayout postLikeContainer = new LinearLayout(this);
-            postLikeContainer.setOrientation(LinearLayout.VERTICAL);
-            LinearLayout.LayoutParams postLikeContainerLayoutParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            postLikeContainerLayoutParams.setMargins(convertDpToPx(230), 0, 0, 0);
-            postLikeContainer.setLayoutParams(postLikeContainerLayoutParams);
-
-            ImageView likeImage = new ImageView(this);
-            likeImage.setLayoutParams(new LinearLayout.LayoutParams(convertDpToPx(20), convertDpToPx(20)));
-            likeImage.setImageResource(post.getPostInfo().isLikeClickable() ?
-                    R.drawable.icon_heart0 : R.drawable.icon_heart2);  // 좋아요 클릭 여부에 따른 이미지 변경
-            postLikeContainer.addView(likeImage);
-
-            TextView likeCount = new TextView(this);
-            likeCount.setText(String.valueOf(post.getPostInfo().getLikeCount()));
-            postLikeContainer.addView(likeCount);
-
-            postInfoContainer.addView(postLikeContainer);
-
-            // 최종적으로 사용자 정보 섹터를 먼저 추가
-            postContainer.addView(postInfoContainer);
-
-            // 게시글 내용 추가
-            TextView postContent = new TextView(this);
-            postContent.setText(post.getPostInfo().getContent());
-
-            // 배경 설정 (home.xml에서 정의한 배경 리소스)
-            postContent.setBackgroundResource(R.drawable.common_container_style);  // 배경 추가
-
-            // 스타일 적용 (home.xml에서 정의한 스타일 적용)
-            postContent.setTextAppearance(this, R.style.CommonTextStyle);  // 스타일 추가
-
-            // 레이아웃 파라미터 설정 (여백, 마진)
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            layoutParams.setMargins(16, 8, 16, 8);  // 여백 설정
-            postContent.setLayoutParams(layoutParams);
-
-            // 게시글 내용은 사용자 정보 밑에 추가
-            postContainer.addView(postContent);
-        }
+        });
     }
-
 
     // dp를 px로 변환하는 메서드
     public int convertDpToPx(int dp) {
@@ -208,41 +248,46 @@ public class HomeActivity extends AppCompatActivity {
         populateHourlyForecast(result.getHourlyWeatherData());
     }
 
-    private void loadWeatherData() {
-        String accessToken = ApplicationCofinguration.ACCESS_TOKEN;
-        String locationId = "703";
-
-        WeatherApi.fetchHourlyWeather(accessToken, locationId, new WeatherApi.WeatherCallback() {
-            @Override
-            public void onSuccess(WeatherResponse.Result result) {
-                // 데이터를 캐시
-                cachedWeatherData = result;
-
-                runOnUiThread(() -> populateHourlyForecast(result.getHourlyWeatherData()));
-
-                // "구"와 "동" 텍스트 설정
-                TextView currentDistrict = findViewById(R.id.currentDistrict);
-                TextView currentTown = findViewById(R.id.currentTown);
-                TextView currentTemp = findViewById(R.id.currentTemperature);
-                ImageView weatherIcon = findViewById(R.id.weatherIcon);
-                currentDistrict.setText(result.getCity());  // 구
-                currentTown.setText(result.getStreet());    // 동
-                currentTemp.setText(result.getCurrentTmp());    // 현재 온도
-                weatherIcon.setImageResource(getWeatherIcon(result.getCurrentSkyType()));   // 현재 하늘? 날씨? 상황
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                Log.e("HomeActivity", "Error fetching hourly forecast: " + errorMessage);
-            }
-        });
-    }
+//    private void loadWeatherData() {
+//        String accessToken = ApplicationCofinguration.ACCESS_TOKEN;
+//        String locationId = "703";
+//
+//        WeatherApi.fetchHourlyWeather(accessToken, locationId, new WeatherApi.WeatherCallback() {
+//            @Override
+//            public void onSuccess(WeatherResponse.Result result) {
+//                // 데이터를 캐시
+//                cachedWeatherData = result;
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        runOnUiThread(() -> populateHourlyForecast(result.getHourlyWeatherData()));
+//
+//                        // "구"와 "동" 텍스트 설정
+//                        TextView currentDistrict = findViewById(R.id.currentDistrict);
+//                        TextView currentTown = findViewById(R.id.currentTown);
+//                        TextView currentTemp = findViewById(R.id.currentTemperature);
+//                        ImageView weatherIcon = findViewById(R.id.weatherIcon);
+//                        currentDistrict.setText(result.getCity());  // 구
+//                        currentTown.setText(result.getStreet());    // 동
+//                        currentTemp.setText(String.valueOf(result.getCurrentTmp()) + "°C");    // 현재 온도
+//                        weatherIcon.setImageResource(getWeatherIcon(result.getCurrentSkyType()));   // 현재 하늘? 날씨? 상황
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onError(String errorMessage) {
+//                Log.e("HomeActivity", "Error fetching hourly forecast: " + errorMessage);
+//            }
+//        });
+//    }
 
 //     더미 데이터를 로드하는 메서드
-//    private void loadHourlyForecast() {
-//        List<WeatherResponse.HourlyWeatherData> dummyData = createDummyHourlyData(); // 더미 데이터 생성
-//        populateHourlyForecast(dummyData); // 더미 데이터를 UI에 반영
-//    }
+    private void loadWeatherData() {
+        List<WeatherResponse.HourlyWeatherData> dummyData = createDummyHourlyData(); // 더미 데이터 생성
+        populateHourlyForecast(dummyData); // 더미 데이터를 UI에 반영
+    }
 
     private void populateHourlyForecast(List<WeatherResponse.HourlyWeatherData> weatherData) {
         hourlyForecastContainer.removeAllViews();

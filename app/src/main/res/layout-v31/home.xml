@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2E61E5"
+    android:orientation="vertical"
     android:padding="16dp">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:fillViewport="true">
 
-        <!-- 게시글 좌우 스크롤 -->
-        <ScrollView
-            android:id="@+id/scrollPost"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/common_container_style">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -31,7 +30,9 @@
                     android:layout_width="220dp"
                     android:layout_height="200dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@drawable/common_container_style"></HorizontalScrollView>
+                    android:background="@drawable/common_container_style">
+
+                </HorizontalScrollView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -47,6 +48,7 @@
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:padding="8dp">
+
 
                         <LinearLayout
                             android:id="@+id/textContainer"
@@ -121,6 +123,8 @@
                         </LinearLayout>
                     </LinearLayout>
 
+
+
                     <Button
                         android:id="@+id/toggleViewButton"
                         style="@style/CommonTextStyleBold"
@@ -131,6 +135,7 @@
                         android:background="@drawable/common_container_style"
                         android:text="수치"
                         android:textSize="12sp" />
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -157,18 +162,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" />
             </HorizontalScrollView>
-
-            <!-- 공기 질 정보 -->
-            <TextView
-                android:id="@+id/ultraFineDust"
-                style="@style/CommonTextStyleBold"
-                android:layout_width="89dp"
-                android:layout_height="80dp"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/common_container_style"
-                android:text="\n초미세먼지\n"
-                android:textAlignment="center"
-                android:textSize="14sp" />
 
             <LinearLayout
                 android:id="@+id/airQualityContainer"
@@ -222,124 +215,143 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- 게시글 컨테이너 -->
+            <!-- 게시글들을 담는 외부 컨테이너 -->
             <LinearLayout
-                android:id="@+id/postContainer"
-                style="@style/CommonTextStyleBold"
-                android:layout_width="wrap_content"
+                android:id="@+id/postOuterContainer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/common_container_style"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:orientation="vertical">
 
-                <!-- 작성자 정보 섹터-->
+                <!-- 게시글 컨테이너 -->
                 <LinearLayout
-                    android:id="@+id/postInfoContainer"
+                    android:id="@+id/postContainer"
                     style="@style/CommonTextStyleBold"
-                    android:layout_width="360dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
-                    <!-- 프로필 이미지 -->
-                    <ImageView
-                        android:id="@+id/userProfile"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginEnd="4dp"
-                        android:background="@drawable/common_conner_style"
-                        android:clipToOutline="true"
-                        android:src="@drawable/profile" />
-
+                    <!-- 작성자 정보 섹터-->
                     <LinearLayout
-                        android:id="@+id/userInfoContainer"
+                        android:id="@+id/postInfoContainer"
                         style="@style/CommonTextStyleBold"
-                        android:layout_width="wrap_content"
+                        android:layout_width="360dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
 
-                        <!-- 사용자 이름 -->
-                        <TextView
-                            android:id="@+id/userName"
-                            style="@style/CommonTextStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="사용자 명"
+                        <!-- 프로필 이미지 -->
+                        <ImageView
+                            android:id="@+id/userProfile"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="4dp"
+                            android:background="@drawable/common_conner_style"
+                            android:clipToOutline="true"
+                            android:src="@drawable/profile" />
 
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/createdAt"
+                        <LinearLayout
+                            android:id="@+id/userInfoContainer"
                             style="@style/CommonTextStyleBold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="3분전"
-                            android:textColor="@color/light_gray"
-                            android:textSize="10sp"
+                            android:orientation="vertical">
 
-                            />
-                    </LinearLayout>
+                            <!-- 사용자 이름 -->
+                            <TextView
+                                android:id="@+id/userName"
+                                style="@style/CommonTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="사용자 명"
 
-                    <!-- 사용자 타입 -->
-                    <ImageView
-                        android:id="@+id/userType"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/icon_clear" />
+                                android:textSize="14sp" />
 
-                    <!-- 좋아요 -->
-                    <LinearLayout
-                        android:id="@+id/postLikeContainer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginStart="230dp"
+                            <TextView
+                                android:id="@+id/createdAt"
+                                style="@style/CommonTextStyleBold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="3분전"
+                                android:textColor="@color/light_gray"
+                                android:textSize="10sp"
 
-                        android:orientation="vertical">
+                                />
+                        </LinearLayout>
 
-                        <!-- 좋아요 하트 이미지 -->
+                        <!-- 사용자 타입 -->
                         <ImageView
-                            android:id="@+id/likeImage"
+                            android:id="@+id/userType"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/icon_heart0" />
+                            android:src="@drawable/icon_clear" />
 
-                        <!-- 좋아요 수 -->
-                        <TextView
-                            android:id="@+id/likeCount"
-                            style="@style/CommonTextStyle"
+                        <!-- 좋아요 -->
+                        <LinearLayout
+                            android:id="@+id/postLikeContainer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="0" />
+                            android:layout_gravity="end"
+                            android:layout_marginStart="230dp"
+
+                            android:orientation="vertical">
+
+                            <!-- 좋아요 하트 이미지 -->
+                            <ImageView
+                                android:id="@+id/likeImage"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/icon_heart0" />
+
+                            <!-- 좋아요 수 -->
+                            <TextView
+                                android:id="@+id/likeCount"
+                                style="@style/CommonTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="0" />
+                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
 
-                <!-- 게시글 내용 섹터-->
-                <LinearLayout
-                    android:id="@+id/postContentContainer"
-                    style="@style/CommonTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/common_container_style"
-                    android:orientation="horizontal"
-                    android:paddingStart="8dp"
-                    android:paddingTop="2dp"
-                    android:paddingEnd="4dp"
-                    android:paddingBottom="4dp">
-
-                    <TextView
-                        android:id="@+id/postContent"
+                    <!-- 게시글 내용 섹터-->
+                    <LinearLayout
+                        android:id="@+id/postContentContainer"
                         style="@style/CommonTextStyle"
                         android:layout_width="match_parent"
-                        android:layout_height="130dp"
-                        android:textSize="14sp" />
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/common_container_style"
+                        android:orientation="horizontal"
+                        android:paddingStart="8dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="4dp"
+                        android:paddingBottom="4dp">
+
+                        <TextView
+                            android:id="@+id/postContent"
+                            style="@style/CommonTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:textSize="14sp" />
+                    </LinearLayout>
 
                 </LinearLayout>
             </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
-</LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/createPostBtn"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/post_btn_conner_style"
+        android:src="@drawable/icon_share"
+        android:clipToOutline="true"
+        android:layout_margin="16dp"/>
+</RelativeLayout>
 
